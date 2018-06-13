@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 http://www.springframework.org/schema/context
+	 http://www.springframework.org/schema/context/spring-context-4.3.xsd
+	 http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+<!-- 	<import resource="/user-bean.xml" /> -->
+	<context:component-scan	base-package="com.billing" />
+	
+	<context:annotation-config />
+     <bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/billing" />
+        <property name="username" value="root" />
+        <property name="password" value="root" />
+    </bean>
+    <bean id="userService" class="com.billing.service.UserServiceImpl" />
+	 <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="datasource" />
+    </bean>
+	
+	<bean id="authInterceptor"
+		class="com.billing.service.AuthTokenInterceptor" />
+	<bean id="authUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="authInterceptor" />
+			</list>
+		</property>
+		<property name="mappings">
+			<props>
+				<prop key="/login">loginController</prop>
+			</props>
+		</property>
+	</bean>
+	<bean name="update_SUPPLIER.html" class="com.billing.controller.UpdatePOController"></bean>
+    <bean
+        class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="java.lang.Exception">Error</prop>
+            </props>
+        </property>
+    </bean>   
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<mvc:default-servlet-handler />
+	<mvc:resources mapping="/assets/**" location="/assets/"
+		cache-period="31556926" />
+	<mvc:resources mapping="/images/**" location="/images/"
+		cache-period="31556926" />
+	<mvc:annotation-driven />
+	
+	
+</beans>

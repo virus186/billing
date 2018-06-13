@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+ <!DOCTYPE tiles-definitions PUBLIC  
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"  
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+  <definition name="baseLayout" template="/WEB-INF/tiles/baseLayout.jsp">
+      <put-attribute name="title"  value="Template"/>
+      <put-attribute name="header" value="/WEB-INF/tiles/header.jsp"/>
+      <put-attribute name="body"   value="/WEB-INF/tiles/body.jsp"/>
+      <put-attribute name="footer"   value="/WEB-INF/tiles/footer.jsp"/>
+  </definition>
+  
+   <definition name="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <put-attribute name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <put-attribute name="url" value="jdbc:mysql://localhost:3306/billing" />
+        <put-attribute name="username" value="root" />
+        <put-attribute name="password" value="root" />
+    </definition>
+  
+  <definition name="home" extends="baseLayout">
+      <put-attribute name="title"  value="home"/>
+      <put-attribute name="body"   value="/WEB-INF/jsp/home.jsp"/>      
+  </definition>
+  
+  <definition name="login" extends="baseLayout">
+      <put-attribute name="title"  value="login"/>
+      <put-attribute name="body"   value="/WEB-INF/jsp/login.jsp"/>      
+  </definition>
+  
+  <definition name="register" extends="baseLayout">
+      <put-attribute name="title"  value="register"/>
+      <put-attribute name="body"   value="/WEB-INF/jsp/register.jsp"/>      
+  </definition>
+  
+</tiles-definitions>
